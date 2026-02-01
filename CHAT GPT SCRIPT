@@ -1,0 +1,520 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
+local MyLibrary = {}
+
+function MyLibrary:MakeWindow(options)
+
+    -- Create ScreenGui
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "MyUILibrary"
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    -- Create Main Frame
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Size = UDim2.new(0, 400, 0, 250)
+    MainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Parent = ScreenGui
+
+    -- Create Title
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, 0, 0, 40)
+    Title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    Title.TextColor3 = Color3.new(1, 1, 1)
+    Title.TextScaled = true
+    Title.Text = options.Name or "Default Title"
+    Title.Parent = MainFrame
+
+    -- Return window object
+    local Window = {}
+    Window.Frame = MainFrame
+
+    return Window
+end
+
+-- Create window like Orion style
+local Window = MyLibrary:MakeWindow({
+    Name = "My Custom UI"
+})
+local MyLibrary = {}
+
+function MyLibrary:MakeWindow(options)
+
+    local ScreenGui = Instance.new("ScreenGui")
+    ScreenGui.Name = "MyUILibrary"
+    ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local MainFrame = Instance.new("Frame")
+    MainFrame.Size = UDim2.new(0, 500, 0, 300)
+    MainFrame.Position = UDim2.new(0.5, -250, 0.5, -150)
+    MainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    MainFrame.BorderSizePixel = 0
+    MainFrame.Parent = ScreenGui
+
+    local Title = Instance.new("TextLabel")
+    Title.Size = UDim2.new(1, 0, 0, 40)
+    Title.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    Title.TextColor3 = Color3.new(1,1,1)
+    Title.TextScaled = true
+    Title.Text = options.Name or "Default Title"
+    Title.Parent = MainFrame
+
+    -- Container for tab buttons
+    local TabButtons = Instance.new("Frame")
+    TabButtons.Size = UDim2.new(0, 120, 1, -40)
+    TabButtons.Position = UDim2.new(0, 0, 0, 40)
+    TabButtons.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+    TabButtons.Parent = MainFrame
+
+    -- Container for tab content
+    local TabContainer = Instance.new("Frame")
+    TabContainer.Size = UDim2.new(1, -120, 1, -40)
+    TabContainer.Position = UDim2.new(0, 120, 0, 40)
+    TabContainer.BackgroundTransparency = 1
+    TabContainer.Parent = MainFrame
+
+    local Window = {}
+
+    function Window:MakeTab(tabOptions)
+
+        -- Tab Button
+        local TabButton = Instance.new("TextButton")
+        TabButton.Size = UDim2.new(1, 0, 0, 40)
+        TabButton.BackgroundColor3 = Color3.fromRGB(35,35,35)
+        TabButton.TextColor3 = Color3.new(1,1,1)
+        TabButton.TextScaled = true
+        TabButton.Text = tabOptions.Name or "Tab"
+        TabButton.Parent = TabButtons
+
+        -- Tab Content Frame
+        local TabFrame = Instance.new("Frame")
+        TabFrame.Size = UDim2.new(1, 0, 1, 0)
+        TabFrame.BackgroundTransparency = 1
+        TabFrame.Visible = false
+        TabFrame.Parent = TabContainer
+
+        -- Button Click Logic
+        TabButton.MouseButton1Click:Connect(function()
+            -- Hide all tabs
+            for _, child in pairs(TabContainer:GetChildren()) do
+                if child:IsA("Frame") then
+                    child.Visible = false
+                end
+            end
+
+            TabFrame.Visible = true
+        end)
+
+        local Tab = {}
+        Tab.Frame = TabFrame
+
+        return Tab
+    end
+
+    return Window
+end
+
+
+-- Create Window
+local Window = MyLibrary:MakeWindow({
+    Name = "My Custom UI"
+})
+
+-- Create Tabs
+local Tab1 = Window:MakeTab({
+    Name = "Tab 1"
+})
+
+local Tab2 = Window:MakeTab({
+    Name = "Tab 2"
+})
+function Window:MakeTab(tabOptions)
+    -- Tab Button
+    local TabButton = Instance.new("TextButton")
+    TabButton.Size = UDim2.new(1, 0, 0, 40)
+    TabButton.BackgroundColor3 = Color3.fromRGB(35,35,35)
+    TabButton.TextColor3 = Color3.new(1,1,1)
+    TabButton.TextScaled = true
+    TabButton.Text = tabOptions.Name or "Tab"
+    TabButton.Parent = TabButtons
+
+    -- Tab Content Frame
+    local TabFrame = Instance.new("Frame")
+    TabFrame.Size = UDim2.new(1, 0, 1, 0)
+    TabFrame.BackgroundTransparency = 1
+    TabFrame.Visible = false
+    TabFrame.Parent = TabContainer
+
+    -- Button Click Logic
+    TabButton.MouseButton1Click:Connect(function()
+        for _, child in pairs(TabContainer:GetChildren()) do
+            if child:IsA("Frame") then
+                child.Visible = false
+            end
+        end
+        TabFrame.Visible = true
+    end)
+
+    local Tab = {}
+    Tab.Frame = TabFrame
+
+    -- AddSection function
+    function Tab:AddSection(sectionOptions)
+        local SectionFrame = Instance.new("Frame")
+        SectionFrame.Size = UDim2.new(1, -10, 0, 100) -- You can adjust height later
+        SectionFrame.Position = UDim2.new(0, 5, 0, #TabFrame:GetChildren() * 110) -- Stack sections
+        SectionFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+        SectionFrame.BorderSizePixel = 0
+        SectionFrame.Parent = TabFrame
+
+        -- Section Title
+        local SectionTitle = Instance.new("TextLabel")
+        SectionTitle.Size = UDim2.new(1, 0, 0, 30)
+        SectionTitle.BackgroundColor3 = Color3.fromRGB(25,25,25)
+        SectionTitle.TextColor3 = Color3.new(1,1,1)
+        SectionTitle.TextScaled = true
+        SectionTitle.Text = sectionOptions.Name or "Section"
+        SectionTitle.Parent = SectionFrame
+
+        local Section = {}
+        Section.Frame = SectionFrame
+        return Section
+    end
+
+    return Tab
+end
+function Tab:AddSection(sectionOptions)
+    local SectionFrame = Instance.new("Frame")
+    SectionFrame.Size = UDim2.new(1, -10, 0, 100)
+    SectionFrame.Position = UDim2.new(0, 5, 0, #Tab.Frame:GetChildren() * 110)
+    SectionFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    SectionFrame.BorderSizePixel = 0
+    SectionFrame.Parent = Tab.Frame
+
+    local SectionTitle = Instance.new("TextLabel")
+    SectionTitle.Size = UDim2.new(1, 0, 0, 30)
+    SectionTitle.BackgroundColor3 = Color3.fromRGB(25,25,25)
+    SectionTitle.TextColor3 = Color3.new(1,1,1)
+    SectionTitle.TextScaled = true
+    SectionTitle.Text = sectionOptions.Name or "Section"
+    SectionTitle.Parent = SectionFrame
+
+    local Section = {}
+    Section.Frame = SectionFrame
+
+    -- Add Button inside Section
+    function Section:AddButton(buttonOptions)
+        local Button = Instance.new("TextButton")
+        Button.Size = UDim2.new(1, -10, 0, 30)
+        Button.Position = UDim2.new(0, 5, 0, #SectionFrame:GetChildren() * 35) -- stack buttons below title
+        Button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+        Button.TextColor3 = Color3.new(1,1,1)
+        Button.TextScaled = true
+        Button.Text = buttonOptions.Name or "Button"
+        Button.Parent = SectionFrame
+
+        -- Connect the callback
+        if buttonOptions.Callback then
+            Button.MouseButton1Click:Connect(buttonOptions.Callback)
+        end
+    end
+
+    return Section
+end
+function Section:AddToggle(toggleOptions)
+    local ToggleFrame = Instance.new("Frame")
+    ToggleFrame.Size = UDim2.new(1, -10, 0, 30)
+    ToggleFrame.Position = UDim2.new(0, 5, 0, #Section.Frame:GetChildren() * 35)
+    ToggleFrame.BackgroundTransparency = 1
+    ToggleFrame.Parent = Section.Frame
+
+    -- Toggle Button (Clickable box)
+    local ToggleButton = Instance.new("TextButton")
+    ToggleButton.Size = UDim2.new(0, 30, 0, 30)
+    ToggleButton.Position = UDim2.new(0, 0, 0, 0)
+    ToggleButton.BackgroundColor3 = toggleOptions.Default and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(60, 60, 60)
+    ToggleButton.Text = ""
+    ToggleButton.Parent = ToggleFrame
+
+    -- Toggle Label
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(1, -35, 1, 0)
+    Label.Position = UDim2.new(0, 35, 0, 0)
+    Label.BackgroundTransparency = 1
+    Label.TextColor3 = Color3.new(1,1,1)
+    Label.TextScaled = true
+    Label.Text = toggleOptions.Name or "Toggle"
+    Label.Parent = ToggleFrame
+
+    -- Toggle State
+    local Value = toggleOptions.Default or false
+
+    -- Click Function
+    ToggleButton.MouseButton1Click:Connect(function()
+        Value = not Value
+        ToggleButton.BackgroundColor3 = Value and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(60, 60, 60)
+        if toggleOptions.Callback then
+            toggleOptions.Callback(Value)
+        end
+    end)
+end
+function Section:AddToggle(toggleOptions)
+    local ToggleFrame = Instance.new("Frame")
+    ToggleFrame.Size = UDim2.new(1, -10, 0, 30)
+    ToggleFrame.Position = UDim2.new(0, 5, 0, #Section.Frame:GetChildren() * 35)
+    ToggleFrame.BackgroundTransparency = 1
+    ToggleFrame.Parent = Section.Frame
+
+    local ToggleButton = Instance.new("TextButton")
+    ToggleButton.Size = UDim2.new(0, 30, 0, 30)
+    ToggleButton.Position = UDim2.new(0, 0, 0, 0)
+    ToggleButton.BackgroundColor3 = toggleOptions.Default and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(60, 60, 60)
+    ToggleButton.Text = ""
+    ToggleButton.Parent = ToggleFrame
+
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(1, -35, 1, 0)
+    Label.Position = UDim2.new(0, 35, 0, 0)
+    Label.BackgroundTransparency = 1
+    Label.TextColor3 = Color3.new(1,1,1)
+    Label.TextScaled = true
+    Label.Text = toggleOptions.Name or "Toggle"
+    Label.Parent = ToggleFrame
+
+    local Value = toggleOptions.Default or false
+
+    local Toggle = {}
+
+    -- Function to update the toggle visually and call the callback
+    function Toggle:Update(newValue)
+        Value = newValue
+        ToggleButton.BackgroundColor3 = Value and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(60, 60, 60)
+        if toggleOptions.Callback then
+            toggleOptions.Callback(Value)
+        end
+    end
+
+    -- Allow programmatic set
+    function Toggle:Set(newValue)
+        self:Update(newValue)
+    end
+
+    -- Click Function
+    ToggleButton.MouseButton1Click:Connect(function()
+        Toggle:Update(not Value)
+    end)
+
+    return Toggle
+end
+function Section:AddSlider(sliderOptions)
+    local SliderFrame = Instance.new("Frame")
+    SliderFrame.Size = UDim2.new(1, -10, 0, 40)
+    SliderFrame.Position = UDim2.new(0, 5, 0, #Section.Frame:GetChildren() * 45)
+    SliderFrame.BackgroundTransparency = 1
+    SliderFrame.Parent = Section.Frame
+
+    -- Slider label
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(0.4, 0, 1, 0)
+    Label.BackgroundTransparency = 1
+    Label.TextColor3 = Color3.new(1,1,1)
+    Label.TextScaled = true
+    Label.Text = sliderOptions.Name or "Slider"
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = SliderFrame
+
+    -- Value label
+    local ValueLabel = Instance.new("TextLabel")
+    ValueLabel.Size = UDim2.new(0.6, -5, 1, 0)
+    ValueLabel.Position = UDim2.new(0.4, 5, 0, 0)
+    ValueLabel.BackgroundTransparency = 1
+    ValueLabel.TextColor3 = sliderOptions.Color or Color3.new(1,1,1)
+    ValueLabel.TextScaled = true
+    ValueLabel.Text = (sliderOptions.Default or sliderOptions.Min) .. " " .. (sliderOptions.ValueName or "")
+    ValueLabel.TextXAlignment = Enum.TextXAlignment.Right
+    ValueLabel.Parent = SliderFrame
+
+    -- Slider bar
+    local Bar = Instance.new("Frame")
+    Bar.Size = UDim2.new(1, 0, 0, 10)
+    Bar.Position = UDim2.new(0, 0, 0.6, 0)
+    Bar.BackgroundColor3 = Color3.fromRGB(100,100,100)
+    Bar.Parent = SliderFrame
+
+    -- Slider knob
+    local Knob = Instance.new("TextButton")
+    Knob.Size = UDim2.new(0, 20, 1, 0)
+    Knob.Position = UDim2.new(0, ((sliderOptions.Default or sliderOptions.Min)/(sliderOptions.Max - sliderOptions.Min)) * (Bar.AbsoluteSize.X - 20), 0, 0)
+    Knob.BackgroundColor3 = sliderOptions.Color or Color3.new(1,1,1)
+    Knob.Text = ""
+    Knob.Parent = Bar
+
+    local Value = sliderOptions.Default or sliderOptions.Min
+    local Increment = sliderOptions.Increment or 1
+
+    local dragging = false
+
+    -- Drag function
+    Knob.MouseButton1Down:Connect(function()
+        dragging = true
+    end)
+
+    game:GetService("UserInputService").InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+        end
+    end)
+
+    game:GetService("RunService").RenderStepped:Connect(function()
+        if dragging then
+            local mouse = game.Players.LocalPlayer:GetMouse()
+            local relative = math.clamp(mouse.X - Bar.AbsolutePosition.X, 0, Bar.AbsoluteSize.X)
+            local percent = relative / Bar.AbsoluteSize.X
+            Value = math.floor((percent * (sliderOptions.Max - sliderOptions.Min) + sliderOptions.Min) / Increment + 0.5) * Increment
+            Knob.Position = UDim2.new(percent, 0, 0, 0)
+            ValueLabel.Text = Value .. " " .. (sliderOptions.ValueName or "")
+            if sliderOptions.Callback then
+                sliderOptions.Callback(Value)
+            end
+        end
+    end)
+
+    local Slider = {}
+    function Slider:Set(newValue)
+        Value = math.clamp(newValue, sliderOptions.Min, sliderOptions.Max)
+        local percent = (Value - sliderOptions.Min)/(sliderOptions.Max - sliderOptions.Min)
+        Knob.Position = UDim2.new(percent, 0, 0, 0)
+        ValueLabel.Text = Value .. " " .. (sliderOptions.ValueName or "")
+        if sliderOptions.Callback then
+            sliderOptions.Callback(Value)
+        end
+    end
+
+    function Slider:Get()
+        return Value
+    end
+
+    return Slider
+end
+-- Suppose you already created a slider
+local MySlider = Section1:AddSlider({
+    Name = "Bananas",
+    Min = 0,
+    Max = 20,
+    Default = 5,
+    Increment = 1,
+    ValueName = "bananas",
+    Callback = function(Value)
+        print("Slider value:", Value)
+    end
+})
+
+-- Programmatically set slider to 2
+MySlider:Set(2)
+local currentValue = MySlider:Get()
+print("Current slider value is:", currentValue)
+function Section:AddTextbox(textboxOptions)
+    local TextboxFrame = Instance.new("Frame")
+    TextboxFrame.Size = UDim2.new(1, -10, 0, 40)
+    TextboxFrame.Position = UDim2.new(0, 5, 0, #Section.Frame:GetChildren() * 45)
+    TextboxFrame.BackgroundTransparency = 1
+    TextboxFrame.Parent = Section.Frame
+
+    -- Label for textbox
+    local Label = Instance.new("TextLabel")
+    Label.Size = UDim2.new(0.4, 0, 1, 0)
+    Label.BackgroundTransparency = 1
+    Label.TextColor3 = Color3.new(1,1,1)
+    Label.TextScaled = true
+    Label.Text = textboxOptions.Name or "Textbox"
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    Label.Parent = TextboxFrame
+
+    -- TextBox input
+    local TextBox = Instance.new("TextBox")
+    TextBox.Size = UDim2.new(0.6, -5, 1, 0)
+    TextBox.Position = UDim2.new(0.4, 5, 0, 0)
+    TextBox.BackgroundColor3 = Color3.fromRGB(60,60,60)
+    TextBox.TextColor3 = Color3.new(1,1,1)
+    TextBox.TextScaled = true
+    TextBox.Text = textboxOptions.Default or ""
+    TextBox.ClearTextOnFocus = textboxOptions.TextDisappear or false
+    TextBox.Parent = TextboxFrame
+
+    local TextValue = TextBox.Text
+
+    local Textbox = {}
+
+    -- When user enters text
+    TextBox.FocusLost:Connect(function(enterPressed)
+        TextValue = TextBox.Text
+        if textboxOptions.Callback then
+            textboxOptions.Callback(TextValue)
+        end
+        if textboxOptions.TextDisappear then
+            TextBox.Text = ""
+        end
+    end)
+
+    -- Programmatic set
+    function Textbox:Set(newValue)
+        TextValue = newValue
+        TextBox.Text = newValue
+        if textboxOptions.Callback then
+            textboxOptions.Callback(TextValue)
+        end
+    end
+
+    -- Programmatic get
+    function Textbox:Get()
+        return TextValue
+    end
+
+    return Textbox
+end
+function Window:Init()
+    -- Make the window visible (in case we were hiding it during setup)
+    self.Frame.Visible = true
+
+    -- Optional: Make draggable
+    local dragging
+    local dragInput
+    local dragStart
+    local startPos
+
+    local function update(input)
+        local delta = input.Position - dragStart
+        self.Frame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
+    end
+
+    self.Frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = self.Frame.Position
+
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+
+    self.Frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement then
+            dragInput = input
+        end
+    end)
+
+    game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input == dragInput and dragging then
+            update(input)
+        end
+    end)
+end
