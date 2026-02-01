@@ -9,7 +9,7 @@ if isfile(config) then
     _G.Key = readfile(config)
 end
 
-local Window = FluentCreateWindow({
+local Window = FluentCreate:Window({
     Title = "DAN HUB KEY SYSTEM",
     SubTitle = "by SGA and EpicDeevv",
     TabWidth = 160,
