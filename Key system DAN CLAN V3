@@ -1,0 +1,94 @@
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+
+local mainscript = "https://raw.githubusercontent.com/LIAM893134/danClanScript/refs/heads/main/DanClanScript"
+local invite = ""
+local config = "EpicHubKey.txt"
+_G.Key = ""
+local validKey = "DanXrtx"
+if isfile(config) then
+    _G.Key = readfile(config)
+end
+
+local Window = FluentCreateWindow({
+    Title = "DAN HUB KEY SYSTEM",
+    SubTitle = "by SGA and EpicDeevv",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(450, 300),
+    Acrylic = true,
+    Theme = "Dark",
+    MinimizeKey = Enum.KeyCode.LeftControl
+})
+
+local function checkKey()
+    if _G.Key == validKey then
+        Fluent:Notify({
+            Title = "Valid Key",
+            Content = "Executing Main Script...",
+            Duration = 2
+        })
+        writefile(config, _G.Key)
+        Window:Destroy()
+        loadstring(game:HttpGet(mainscript))()
+    else
+        return false
+    end
+end
+
+
+
+local Tabs = {
+    Key = Window:AddTab({Title = "Key System", Icon = "key"}),
+    Info = Window:AddTab({Title = "Info", Icon = "info"})
+}
+
+Window:SelectTab(1)
+
+local keyInput = Tabs.Key:AddInput("Enter Key",{
+    Title = "Key:",
+    Placeholder = "Enter Key...",
+    Callback = function(Input)
+        _G.Key = Input
+    end
+    
+})
+
+Tabs.Key:AddButton({
+    Title = "Get Key (Discord)",
+    Callback = function()
+        setclipboard("https://discord.gg/RKAbNrG5R")
+        Fluent:Notify({
+            Title = "Invite Copied",
+            Content = "You can continue to Discord now",
+            Duration = 4
+        })
+    end
+})
+
+Tabs.Key:AddButton({
+    Title = "Check Key",
+    Callback = function()
+        checkKey()
+        if checkKey() == false then
+            Fluent:Notify({
+                Title = "Invalid Key",
+                Content = "Please try again",
+                Duration = 2
+            })
+        end
+    end
+})
+
+Tabs.Info:AddParagraph({
+    Title = "Loader for Moon Hub"
+})
+
+Tabs.Info:AddParagraph({
+    Title = "Made by Sga and EpicDeevv after executing execute another time and the script will pop on!"
+})
+
+Tabs.Info:AddParagraph({
+    Title = "Version [1.0]"
+})
+
+
+checkKey()
